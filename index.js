@@ -17,13 +17,13 @@ mongoose
 app.use(cors());
 app.use(express.json())
 
-app.post("/create-shower",ShowerCabinController.create);
-app.post("/create-standart-mirrors",MirrorsStandartController.create);
-app.get("/get-all-shower",ShowerCabinController.getAll);
-app.get("/get-all-standart-mirrors",MirrorsStandartController.getAll);
+// app.post("/create-shower",ShowerCabinController.create);
+// app.post("/create-standart-mirrors",MirrorsStandartController.create);
+// app.get("/get-all-shower",ShowerCabinController.getAll);
+// app.get("/get-all-standart-mirrors",MirrorsStandartController.getAll);
 
-app.patch('/update-goods',MirrorsStandartController.updateGoods)
-app.patch('/update-type',MirrorsStandartController.updateType)
+// app.patch('/update-goods',MirrorsStandartController.updateGoods)
+// app.patch('/update-type',MirrorsStandartController.updateType)
 
 app.listen(process.env.PORT,() => {
     console.log("server start",process.env.PORT)
