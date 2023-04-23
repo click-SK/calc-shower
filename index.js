@@ -25,6 +25,6 @@ app.get("/get-all-standart-mirrors",MirrorsStandartController.getAll);
 app.patch('/update-goods',MirrorsStandartController.updateGoods)
 app.patch('/update-type',MirrorsStandartController.updateType)
 
-app.listen( process.env.PORT,() => {
+app.listen(process.env.PORT,() => {
     console.log("server start",process.env.PORT)
 })
