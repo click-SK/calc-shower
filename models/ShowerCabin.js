@@ -18,7 +18,17 @@ const ShowerCabinSchema = new mongoose.Schema(
       name: String,
       price: Number,
     }],
-    furniture: [{}],
+    furniture: [{
+      count: Number,
+      mainImage: String,
+      title: String,
+      drawingImg: String,
+      depends: [String],
+      colorsFurniture:[{
+        color: String,
+        price: Number
+      }]
+    }],
   },
   { timestamps: true }
 );

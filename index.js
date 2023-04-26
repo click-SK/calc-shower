@@ -20,6 +20,10 @@ app.use(express.json())
 app.post('/create-shower',ShowerCabinController.create);
 app.post('/create-standart-mirrors',MirrorsStandartController.create);
 app.get('/get-all-shower',ShowerCabinController.getAll);
+app.patch('/add-furniture',ShowerCabinController.addFurniture);
+app.patch('/update-furniture-depends',ShowerCabinController.changeFurnitureDepends);
+app.patch('/update-furniture-color',ShowerCabinController.changeFurnitureColors);
+app.patch('/update-shower-colors',ShowerCabinController.updateShowerCabinColors);
 app.get('/get-all-standart-mirrors',MirrorsStandartController.getAll);
 
 app.patch('/update-goods',MirrorsStandartController.updateGoods)
