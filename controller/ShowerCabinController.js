@@ -1,4 +1,28 @@
 import ShowerCabin from "../models/ShowerCabin.js";
+import multer from 'multer';
+import cloudinary from 'cloudinary';
+import fs from 'fs';
+
+// конфігуруємо Cloudinary
+cloudinary.config({
+  cloud_name: 'dzroxyus8',
+  api_key: '235818666177812',
+  api_secret: '8-Mw7cej-V9GD1d8oPZ8d3djEgo'
+});
+
+const storage = multer.diskStorage({
+destination: (_, __, cb) => {
+  if (!fs.existsSync('uploads')) {
+    fs.mkdirSync('uploads');
+  }
+  cb(null, 'uploads');
+},
+filename: (_, file, cb) => {
+  cb(null, file.originalname);
+},
+});
+
+export const upload = multer({ storage });
 
 export const create = async (req, res) => {
     try{
@@ -21,21 +45,18 @@ export const create = async (req, res) => {
 
 export const addFurniture = async (req,res) => {
     try {
-      const id = '6448e892b99aea74f728514d';
+      const {showerId} = req.body;
       const furniture = {
         "count": 1,
         "mainImage": "url",
-        "title": "HDL-305",
+        "title": "Назва",
         "drawingImg": "url",
-        "depends": ["Петля душевая","Стекло-Стекло 90°"],
+        "depends": [],
         "colorsFurniture": [
-          { "color": "PSS", "price": 14 },
-          { "color": "SSS", "price": 14 },
-          { "color": "BLACK", "price": 15.5 }
         ]
       };
       const showerCabin = await ShowerCabin.findOneAndUpdate(
-        { _id: id },
+        { _id: showerId },
         { $push: { furniture: furniture } },
         { new: true }
       );
@@ -45,26 +66,7 @@ export const addFurniture = async (req,res) => {
     }
   };
 
-  export const changeFurnitureDepends = async (req,res) => {
-    try {
-        const showerCabinId = '6447e11e3f44cf96d02d75c9';
-        const furnitureId = '6447e11e3f44cf96d02d75d1';
-        const depends = ["New Depend 1", "New Depend 2"];
-    
-        const showerCabin = await ShowerCabin.findOneAndUpdate(
-          { _id: showerCabinId, "furniture._id": furnitureId },
-          { $set: { "furniture.$.depends": depends } },
-          { new: true }
-        );
-    
-        res.json(showerCabin);
-      } catch (error) {
-        console.error(error);
-      }
-  };
-
   export const changeFurnitureColors = async (req, res) => {
-    console.log('work');
     const {color, price, showerCabinId, furnitureId, currentId} = req.body;
     try {
       const colorsFurniture = {color: color, price: price};
@@ -94,6 +96,232 @@ export const addFurniture = async (req,res) => {
       throw new Error('Failed to update shower cabin colors');
     }
   }
+  
+
+  export const updateGlassThickness = async (id, glassThickness) => {
+    try {
+      const updatedShowerCabin = await ShowerCabin.findOneAndUpdate(
+        { _id: id }, // умовний оператор
+        { $set: { glassThickness: glassThickness } }, // зміна поля glassThickness
+        { new: true } // параметр, який поверне оновлену модель
+      );
+      return updatedShowerCabin;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const updateShowerCabinType = async (req,res) => {
+    try {
+        const {name, price, typeId} = req.body;
+  
+        const shower = await ShowerCabin.findOne(); // знаходимо один екземпляр моделі
+      
+        // знаходимо індекс елемента в масиві type
+        const index = shower.type.findIndex(item => item._id.toString() === typeId);
+        
+        // оновлюємо об'єкт goods відповідного типу
+        shower.type[index] = {
+            name: name,
+            price: price,
+        };
+  
+        // зберігаємо зміни у базі даних
+        const updatedType = await shower.save();
+  
+        res.json(updatedType)
+  
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const updateShowerCabinColor = async (req,res) => {
+  try {
+      const {name, price, typeId} = req.body;
+      console.log('name',name);
+      console.log('price',price);
+      console.log('typeId',typeId);
+
+      const shower = await ShowerCabin.findOne(); // знаходимо один екземпляр моделі
+    
+      // знаходимо індекс елемента в масиві type
+      const index = shower.glassThickness.findIndex(item => item._id.toString() === typeId);
+      
+      // оновлюємо об'єкт goods відповідного типу
+      shower.glassThickness[index] = {
+          name: name,
+          price: price,
+      };
+
+      // зберігаємо зміни у базі даних
+      const updatedType = await shower.save();
+
+      res.json(updatedType)
+
+  } catch (e) {
+      console.log(e);
+  }
+}
+
+export const updateShowerCabinSize = async (req,res) => {
+  try {
+      const {price, typeId} = req.body;
+      console.log('price',price);
+      console.log('typeId',typeId);
+
+      const shower = await ShowerCabin.findOne(); // знаходимо один екземпляр моделі
+    
+      // знаходимо індекс елемента в масиві type
+      const index = shower.sizeOfTheShower.findIndex(item => item._id.toString() === typeId);
+      
+      // оновлюємо об'єкт goods відповідного типу
+      shower.sizeOfTheShower[index] = {
+          price: price,
+      };
+
+      // зберігаємо зміни у базі даних
+      const updatedType = await shower.save();
+
+      res.json(updatedType)
+
+  } catch (e) {
+      console.log(e);
+  }
+}
+
+export const updateShowerCabinFurnitureDepends = async (req, res) => {
+  const {showerCabinId, colors, furnitureId, idx} = req.body;
+  console.log('showerCabinId',showerCabinId);
+  console.log('furnitureId',furnitureId);
+  try {
+    const showerCabin = await ShowerCabin.findById(showerCabinId);
+    showerCabin.furniture[idx].depends = colors;
+    const updatedShowerCabin = await showerCabin.save();
+    await res.json(updatedShowerCabin);
+
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to update shower cabin colors');
+  }
+}
+
+export const updateShowerCabinFurnitureMainImage = async (req,res) => {
+  try {
+    const {furnitureId, showerId} = req.body;
+
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId, "furniture._id": furnitureId}, // умовний оператор
+      { $set: { "furniture.$[outer].mainImage": result.secure_url } },
+      { new: true, arrayFilters: [{ "outer._id": furnitureId }] } 
+    );
+
+    res.json(shower)
+
+  } catch(e) {
+    console.log(e);
+  }
+}
+
+export const updateShowerCabinFurnitureSecondImage = async (req,res) => {
+  try {
+    const {furnitureId, showerId} = req.body;
+
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId, "furniture._id": furnitureId}, // умовний оператор
+      { $set: { "furniture.$[outer].drawingImg": result.secure_url } },
+      { new: true, arrayFilters: [{ "outer._id": furnitureId }] } 
+    );
+
+    res.json(shower)
+
+  } catch(e) {
+    console.log(e);
+  }
+}
+
+export const updateShowerCabinFurnitureTitle = async (req,res) => {
+  try {
+    const {furnitureId, showerId, title} = req.body;
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId, "furniture._id": furnitureId}, // умовний оператор
+      { $set: { "furniture.$[outer].title": title } },
+      { new: true, arrayFilters: [{ "outer._id": furnitureId }] } 
+    );
+    res.json(shower)
+
+  } catch(e) {
+    console.log(e);
+  }
+}
+
+export const addNewFurnitureColors = async (req,res) => {
+  const { showerId, furnitureId, color, price } = req.body;
+  try {
+    const showerCabin = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId, "furniture._id": furnitureId },
+      { $push: { "furniture.$.colorsFurniture": { color: color, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const removeFurnitureColors = async (req, res) => {
+  try {
+    const { showerId, furnitureId, currentId } = req.body;
+
+    const shower = await ShowerCabin.findByIdAndUpdate(
+      showerId,
+      {
+        $pull: { 
+          "furniture.$[furniture].colorsFurniture": { _id: currentId } 
+        }
+      },
+      {
+        new: true,
+        arrayFilters: [
+          { "furniture._id": furnitureId }
+        ]
+      }
+    );
+
+    res.json(shower);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Failed to remove color from furniture" });
+  }
+}
+
+export const removeShowerFurniture = async (req, res) => {
+  try {
+    const { showerId, furnitureId } = req.body;
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { furniture: { _id: furnitureId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
 
 export const getAll = async (req, res) => {
     try {
