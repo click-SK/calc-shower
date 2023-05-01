@@ -323,6 +323,82 @@ export const removeShowerFurniture = async (req, res) => {
   }
 };
 
+export const addNewGlassThickness = async (req,res) => {
+  const { showerId, name, price } = req.body;
+  console.log('WORK!!!');
+  try {
+    const showerCabin = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $push: { "glassThickness": { name: name, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const removeShowerGlassThickness = async (req, res) => {
+  try {
+    const { showerId, currentId } = req.body;
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { glassThickness: { _id: currentId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
+
+export const addNewType = async (req,res) => {
+  const { showerId, name, price } = req.body;
+  console.log('WORK!!!');
+  try {
+    const showerCabin = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $push: { "type": { name: name, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const removeShowerType = async (req, res) => {
+  try {
+    const { showerId, currentId } = req.body;
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { type: { _id: currentId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
+
 export const getAll = async (req, res) => {
     try {
         const allData = await ShowerCabin.find();

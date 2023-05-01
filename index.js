@@ -34,6 +34,10 @@ app.patch('/update-shower-furniture-title',ShowerCabinController.updateShowerCab
 app.patch('/add-new-shower-furniture-colors',ShowerCabinController.addNewFurnitureColors);
 app.delete('/remove-shower-furniture-colors',ShowerCabinController.removeFurnitureColors);
 app.delete('/remove-shower-furniture',ShowerCabinController.removeShowerFurniture);
+app.delete('/remove-shower-glass-thickness',ShowerCabinController.removeShowerGlassThickness);
+app.patch('/add-new-glass-thickness',ShowerCabinController.addNewGlassThickness);
+app.delete('/remove-shower-type',ShowerCabinController.removeShowerType);
+app.patch('/add-new-shower-type',ShowerCabinController.addNewType);
 
 app.get('/get-all-standart-mirrors',MirrorsStandartController.getAll);
 
