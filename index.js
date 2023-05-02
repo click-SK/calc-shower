@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import * as ShowerCabinController from './controller/ShowerCabinController.js';
 import * as MirrorsStandartController from './controller/MirrorsStandartController.js';
+import * as GlassPartitionsController from './controller/GlassPartitionsController.js';
+import * as DashkiController from './controller/DashkiController.js'
 
 dotenv.config();
 const app = express();
@@ -19,7 +21,11 @@ app.use(express.json())
 
 app.post('/create-shower',ShowerCabinController.create);
 app.post('/create-standart-mirrors',MirrorsStandartController.create);
+app.post('/create-glass-partitions',GlassPartitionsController.create);
+app.post('/create-dashki',DashkiController.create);
 app.get('/get-all-shower',ShowerCabinController.getAll);
+app.get('/get-all-dashki',DashkiController.getAll);
+app.get('/get-all-glass-partitions',GlassPartitionsController.getAll);
 app.patch('/add-furniture',ShowerCabinController.addFurniture);
 app.patch('/update-furniture-color',ShowerCabinController.changeFurnitureColors);
 app.patch('/update-shower-colors',ShowerCabinController.updateShowerCabinColors);
