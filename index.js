@@ -2,11 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import * as ShowerCabinController from './controller/ShowerCabinController.js';
-import * as MirrorsStandartController from './controller/MirrorsStandartController.js';
-import * as GlassPartitionsController from './controller/GlassPartitionsController.js';
-import * as CosmeticMirrorsController from './controller/CosmeticMirrorsController.js'
-import DashkiRouter from './router/DashkiRouter.js'
+import DashkiRouter from './router/DashkiRouter.js';
+import GlassPartitionsRouter from './router/GlassPartitionsRouter.js';
+import MirrorsStandartRouter from './router/MirrorsStandartRouter.js';
+import CosmeticMirrorsRouter from './router/CosmeticMirrorsRouter.js'
+import ShowerCabinRouter from './router/ShowerCabinRouter.js'
 
 dotenv.config();
 const app = express();
@@ -21,37 +21,10 @@ app.use(cors());
 app.use(express.json())
 
 app.use(DashkiRouter);
-
-app.post('/create-shower',ShowerCabinController.create);
-app.post('/create-standart-mirrors',MirrorsStandartController.create);
-app.post('/create-glass-partitions',GlassPartitionsController.create);
-app.post('/create-cosmetic-mirrors',CosmeticMirrorsController.create);
-app.get('/get-all-shower',ShowerCabinController.getAll);
-app.get('/get-all-cosmetic-mirrors',CosmeticMirrorsController.getAll);
-app.get('/get-all-glass-partitions',GlassPartitionsController.getAll);
-app.patch('/add-furniture',ShowerCabinController.addFurniture);
-app.patch('/update-furniture-color',ShowerCabinController.changeFurnitureColors);
-app.patch('/update-shower-colors',ShowerCabinController.updateShowerCabinColors);
-app.patch('/update-shower-glass',ShowerCabinController.updateGlassThickness);
-app.patch('/update-shower-type',ShowerCabinController.updateShowerCabinType);
-app.patch('/update-shower-color',ShowerCabinController.updateShowerCabinColor);
-app.patch('/update-shower-size',ShowerCabinController.updateShowerCabinSize);
-app.patch('/update-shower-furniture-depends',ShowerCabinController.updateShowerCabinFurnitureDepends);
-app.patch('/update-shower-furniture-main-image',ShowerCabinController.upload.single('mainImage'),ShowerCabinController.updateShowerCabinFurnitureMainImage);
-app.patch('/update-shower-furniture-second-image',ShowerCabinController.upload.single('drawingImg'),ShowerCabinController.updateShowerCabinFurnitureSecondImage);
-app.patch('/update-shower-furniture-title',ShowerCabinController.updateShowerCabinFurnitureTitle);
-app.patch('/add-new-shower-furniture-colors',ShowerCabinController.addNewFurnitureColors);
-app.delete('/remove-shower-furniture-colors',ShowerCabinController.removeFurnitureColors);
-app.delete('/remove-shower-furniture',ShowerCabinController.removeShowerFurniture);
-app.delete('/remove-shower-glass-thickness',ShowerCabinController.removeShowerGlassThickness);
-app.patch('/add-new-glass-thickness',ShowerCabinController.addNewGlassThickness);
-app.delete('/remove-shower-type',ShowerCabinController.removeShowerType);
-app.patch('/add-new-shower-type',ShowerCabinController.addNewType);
-
-app.get('/get-all-standart-mirrors',MirrorsStandartController.getAll);
-
-app.patch('/update-goods',MirrorsStandartController.updateGoods)
-app.patch('/update-type',MirrorsStandartController.updateType)
+app.use(GlassPartitionsRouter);
+app.use(MirrorsStandartRouter);
+app.use(CosmeticMirrorsRouter);
+app.use(ShowerCabinRouter);
 
 app.listen(process.env.PORT,() => {
     console.log('server start',process.env.PORT)
