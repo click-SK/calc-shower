@@ -26,7 +26,7 @@ export const upload = multer({ storage });
 
 export const create = async (req, res) => {
     try{
-        const { name, type, glassThickness, color, sizeOfTheShower, furniture } = req.body;
+        const { name, type, glassThickness, color, sizeOfTheShower, furniture, typeWordpress, dorsHandles, processingStandart, processingСutout } = req.body;
 
         const data = await ShowerCabin.create({
             name,
@@ -34,7 +34,11 @@ export const create = async (req, res) => {
             glassThickness,
             color,
             sizeOfTheShower,
-            furniture
+            furniture,
+            typeWordpress,
+            dorsHandles,
+            processingStandart,
+            processingСutout
         });
 
         res.json(data);

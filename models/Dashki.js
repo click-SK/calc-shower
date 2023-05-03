@@ -17,10 +17,19 @@ const DashkiSchema = new mongoose.Schema(
       name: String,
       price: Number,
     }],
-    processing: [{
+    processingStandart: [
+      {
         name: String,
         price: Number,
-    }],
+      },
+    ],
+    processingСutout: [
+      {
+        name: String,
+        price: Number,
+        count: Number,
+      },
+    ],
     vanta: Number,
     depository: {
         price: Number,

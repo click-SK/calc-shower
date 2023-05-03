@@ -49,8 +49,13 @@ const MirrorsStandartSchema = new mongoose.Schema(
                     name: String,
                     price: Number,
                 }
-            ]
-        }
+            ],
+        },
+        processingСutout: [{
+            name: String,
+            price: Number,
+            count: Number,
+        }],
   },
   { timestamps: true }
 );

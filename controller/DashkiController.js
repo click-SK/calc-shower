@@ -1,15 +1,15 @@
 import Dashki from '../models/Dashki.js';
-
 export const create = async (req, res) => {
     try{
-        const { name, typeGlass, size, color, vanta, depository, furniture, processing } = req.body;
+        const { name, typeGlass, size, color, vanta, depository, furniture, processingStandart, processingСutout } = req.body;
 
         const data = await Dashki.create({
             name,
             typeGlass,
             size,
             color,
-            processing,
+            processingStandart,
+            processingСutout,
             vanta,
             depository,
             furniture

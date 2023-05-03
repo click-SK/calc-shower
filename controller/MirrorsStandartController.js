@@ -2,14 +2,15 @@ import MirrorsStandart from "../models/MirrorsStandart.js";
 
 export const create = async (req, res) => {
     try{
-        const { type, option} = req.body;
+        const { type, option, processingСutout} = req.body;
 
         console.log('type',type);
         console.log('option',option);
 
         const data = await MirrorsStandart.create({
             type,
-            option
+            option,
+            processingСutout
         });
 
         res.json(data);
