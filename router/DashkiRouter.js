@@ -23,4 +23,12 @@ router.patch('/update-dashki-furniture-title',DashkiController.updateDashkiCabin
 router.patch('/add-new-dashki-furniture-colors',DashkiController.addNewFurnitureColors);
 router.delete('/remove-dashki-furniture-colors',DashkiController.removeFurnitureColors);
 router.delete('/remove-dashki-furniture',DashkiController.removeDashkiFurniture);
+
+router.delete('/remove-dashki-processing-standart',DashkiController.removeProcessingStandart);
+router.patch('/add-new-dashki-processing-standart',DashkiController.addNewProcessingStandart);
+router.patch('/update-dashki-processing-standart',DashkiController.updateProcessingStandart);
+
+router.delete('/remove-dashki-processing-cutout',DashkiController.removeProcessingСutout);
+router.patch('/add-new-dashki-processing-cutout',DashkiController.addNewProcessingСutout);
+router.patch('/update-dashki-processing-cutout',DashkiController.updateProcessingСutout);
 export default router;

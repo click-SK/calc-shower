@@ -77,23 +77,6 @@ export const removeDashkiType = async (req, res) => {
     }
   };
 
-  export const addNewType = async (req,res) => {
-    const { showerId, name, price } = req.body;
-    console.log('WORK!!!');
-    try {
-      const showerCabin = await Dashki.findOneAndUpdate(
-        { _id: showerId },
-        { $push: { typeGlass: { name: name, price: price } } },
-        { new: true }
-      );
-  
-      await res.json(showerCabin);
-    } catch (err) {
-      console.error(err);
-      throw new Error('Failed to add color to furniture');
-    }
-  }
-
   export const addNewColor = async (req,res) => {
     const { showerId, name, price } = req.body;
     console.log('WORK!!!');
@@ -391,10 +374,10 @@ export const updateProcessingStandart = async (req,res) => {
       const shower = await Dashki.findOne(); // знаходимо один екземпляр моделі
     
       // знаходимо індекс елемента в масиві type
-      const index = shower.typeGlass.findIndex(item => item._id.toString() === typeId);
+      const index = shower.processingStandart.findIndex(item => item._id.toString() === typeId);
       
       // оновлюємо об'єкт goods відповідного типу
-      shower.typeGlass[index] = {
+      shower.processingStandart[index] = {
           name: name,
           price: price,
       };
@@ -415,7 +398,7 @@ export const removeProcessingStandart = async (req, res) => {
 
     const shower = await Dashki.findOneAndUpdate(
       { _id: showerId },
-      { $pull: { type: { _id: currentId } } },
+      { $pull: { processingStandart: { _id: currentId } } },
       { new: true }
     );
 
@@ -430,13 +413,29 @@ export const removeProcessingStandart = async (req, res) => {
   }
 };
 
-export const addNewProcessingStandart = async (req,res) => {
+export const addNewType = async (req,res) => {
   const { showerId, name, price } = req.body;
   console.log('WORK!!!');
   try {
     const showerCabin = await Dashki.findOneAndUpdate(
       { _id: showerId },
-      { $push: { "typeGlass": { name: name, price: price } } },
+      { $push: { typeGlass: { name: name, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const addNewProcessingStandart = async (req,res) => {
+  const { showerId, name, price } = req.body;
+  try {
+    const showerCabin = await Dashki.findOneAndUpdate(
+      { _id: showerId },
+      { $push: { processingStandart: { name: name, price: price } } },
       { new: true }
     );
 
@@ -449,17 +448,18 @@ export const addNewProcessingStandart = async (req,res) => {
 
 export const updateProcessingСutout = async (req,res) => {
   try {
-      const {name, price, typeId} = req.body;
+      const {name, price, count, typeId} = req.body;
 
       const shower = await Dashki.findOne(); // знаходимо один екземпляр моделі
     
       // знаходимо індекс елемента в масиві type
-      const index = shower.typeGlass.findIndex(item => item._id.toString() === typeId);
+      const index = shower.processingСutout.findIndex(item => item._id.toString() === typeId);
       
       // оновлюємо об'єкт goods відповідного типу
-      shower.typeGlass[index] = {
+      shower.processingСutout[index] = {
           name: name,
           price: price,
+          count: count
       };
 
       // зберігаємо зміни у базі даних
@@ -478,7 +478,7 @@ export const removeProcessingСutout = async (req, res) => {
 
     const shower = await Dashki.findOneAndUpdate(
       { _id: showerId },
-      { $pull: { type: { _id: currentId } } },
+      { $pull: { processingСutout: { _id: currentId } } },
       { new: true }
     );
 
@@ -494,12 +494,12 @@ export const removeProcessingСutout = async (req, res) => {
 };
 
 export const addNewProcessingСutout = async (req,res) => {
-  const { showerId, name, price } = req.body;
+  const { showerId, name, count, price } = req.body;
   console.log('WORK!!!');
   try {
     const showerCabin = await Dashki.findOneAndUpdate(
       { _id: showerId },
-      { $push: { "typeGlass": { name: name, price: price } } },
+      { $push: { processingСutout: { name: name, price: price, count: count } } },
       { new: true }
     );
 
