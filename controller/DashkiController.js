@@ -62,7 +62,7 @@ export const removeDashkiType = async (req, res) => {
   
       const shower = await Dashki.findOneAndUpdate(
         { _id: showerId },
-        { $pull: { type: { _id: currentId } } },
+        { $pull: { typeGlass: { _id: currentId } } },
         { new: true }
       );
   
@@ -83,7 +83,24 @@ export const removeDashkiType = async (req, res) => {
     try {
       const showerCabin = await Dashki.findOneAndUpdate(
         { _id: showerId },
-        { $push: { "typeGlass": { name: name, price: price } } },
+        { $push: { typeGlass: { name: name, price: price } } },
+        { new: true }
+      );
+  
+      await res.json(showerCabin);
+    } catch (err) {
+      console.error(err);
+      throw new Error('Failed to add color to furniture');
+    }
+  }
+
+  export const addNewColor = async (req,res) => {
+    const { showerId, name, price } = req.body;
+    console.log('WORK!!!');
+    try {
+      const showerCabin = await Dashki.findOneAndUpdate(
+        { _id: showerId },
+        { $push: { "color": { name: name, price: price } } },
         { new: true }
       );
   
@@ -366,3 +383,129 @@ export const removeDashkiFurniture = async (req, res) => {
     return res.status(500).json({ message: 'Failed to remove shower furniture' });
   }
 };
+
+export const updateProcessingStandart = async (req,res) => {
+  try {
+      const {name, price, typeId} = req.body;
+
+      const shower = await Dashki.findOne(); // знаходимо один екземпляр моделі
+    
+      // знаходимо індекс елемента в масиві type
+      const index = shower.typeGlass.findIndex(item => item._id.toString() === typeId);
+      
+      // оновлюємо об'єкт goods відповідного типу
+      shower.typeGlass[index] = {
+          name: name,
+          price: price,
+      };
+
+      // зберігаємо зміни у базі даних
+      const updatedType = await shower.save();
+
+      res.json(updatedType)
+
+  } catch (e) {
+      console.log(e);
+  }
+}
+
+export const removeProcessingStandart = async (req, res) => {
+  try {
+    const { showerId, currentId } = req.body;
+
+    const shower = await Dashki.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { type: { _id: currentId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
+
+export const addNewProcessingStandart = async (req,res) => {
+  const { showerId, name, price } = req.body;
+  console.log('WORK!!!');
+  try {
+    const showerCabin = await Dashki.findOneAndUpdate(
+      { _id: showerId },
+      { $push: { "typeGlass": { name: name, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const updateProcessingСutout = async (req,res) => {
+  try {
+      const {name, price, typeId} = req.body;
+
+      const shower = await Dashki.findOne(); // знаходимо один екземпляр моделі
+    
+      // знаходимо індекс елемента в масиві type
+      const index = shower.typeGlass.findIndex(item => item._id.toString() === typeId);
+      
+      // оновлюємо об'єкт goods відповідного типу
+      shower.typeGlass[index] = {
+          name: name,
+          price: price,
+      };
+
+      // зберігаємо зміни у базі даних
+      const updatedType = await shower.save();
+
+      res.json(updatedType)
+
+  } catch (e) {
+      console.log(e);
+  }
+}
+
+export const removeProcessingСutout = async (req, res) => {
+  try {
+    const { showerId, currentId } = req.body;
+
+    const shower = await Dashki.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { type: { _id: currentId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
+
+export const addNewProcessingСutout = async (req,res) => {
+  const { showerId, name, price } = req.body;
+  console.log('WORK!!!');
+  try {
+    const showerCabin = await Dashki.findOneAndUpdate(
+      { _id: showerId },
+      { $push: { "typeGlass": { name: name, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
