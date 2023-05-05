@@ -412,3 +412,131 @@ export const getAll = async (req, res) => {
         console.log(e);
     }
 }
+
+export const addNewClientType = async (req,res) => {
+  const { showerId, name, price } = req.body;
+  console.log('WORK!!!');
+  try {
+    const showerCabin = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $push: { "typeWordpress": { name: name, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const removeShowerClientType = async (req, res) => {
+  try {
+    const { showerId, currentId } = req.body;
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { typeWordpress: { _id: currentId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
+
+export const updateShowerClientType = async (req,res) => {
+  try {
+      const {name, price, typeId} = req.body;
+
+      const shower = await ShowerCabin.findOne(); // знаходимо один екземпляр моделі
+    
+      // знаходимо індекс елемента в масиві type
+      const index = shower.typeWordpress.findIndex(item => item._id.toString() === typeId);
+      
+      // оновлюємо об'єкт goods відповідного типу
+      shower.typeWordpress[index] = {
+          name: name,
+          price: price,
+      };
+
+      // зберігаємо зміни у базі даних
+      const updatedType = await shower.save();
+
+      res.json(updatedType)
+
+  } catch (e) {
+      console.log(e);
+  }
+}
+
+export const addNewHandleDors = async (req,res) => {
+  const { showerId, name, price } = req.body;
+  console.log('WORK!!!');
+  console.log('name',name);
+  console.log('price',price);
+  try {
+    const showerCabin = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $push: { dorsHandles: { name: name, price: price } } },
+      { new: true }
+    );
+
+    await res.json(showerCabin);
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const removeHandleDors = async (req, res) => {
+  try {
+    const { showerId, currentId } = req.body;
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { dorsHandles: { _id: currentId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
+
+export const updateHandleDors = async (req,res) => {
+  try {
+      const {name, price, typeId} = req.body;
+
+      const shower = await ShowerCabin.findOne(); // знаходимо один екземпляр моделі
+    
+      // знаходимо індекс елемента в масиві type
+      const index = shower.dorsHandles.findIndex(item => item._id.toString() === typeId);
+      
+      // оновлюємо об'єкт goods відповідного типу
+      shower.dorsHandles[index] = {
+          name: name,
+          price: price,
+      };
+
+      // зберігаємо зміни у базі даних
+      const updatedType = await shower.save();
+
+      res.json(updatedType)
+
+  } catch (e) {
+      console.log(e);
+  }
+}
