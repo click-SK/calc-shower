@@ -49,6 +49,7 @@ export const create = async (req, res) => {
 
 export const addFurniture = async (req,res) => {
     try {
+      console.log('WORK!');
       const {showerId} = req.body;
       const furniture = {
         "count": 1,

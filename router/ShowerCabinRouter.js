@@ -5,7 +5,7 @@ const router = new Router();
 
 router.post('/create-shower',ShowerCabinController.create);
 router.get('/get-all-shower',ShowerCabinController.getAll);
-router.patch('/add-furniture',ShowerCabinController.addFurniture);
+router.patch('/add-new-furniture',ShowerCabinController.addFurniture);
 router.patch('/update-furniture-color',ShowerCabinController.changeFurnitureColors);
 router.patch('/update-shower-colors',ShowerCabinController.updateShowerCabinColors);
 router.patch('/update-shower-glass',ShowerCabinController.updateGlassThickness);
