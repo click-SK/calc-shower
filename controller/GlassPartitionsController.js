@@ -185,12 +185,13 @@ export const updateProcessingStandart = async (req,res) => {
   }
 
   export const removeColor = async (req, res) => {
+    console.log('work!!');
     try {
       const { showerId, currentId } = req.body;
   
       const shower = await GlassPartitions.findOneAndUpdate(
         { _id: showerId },
-        { $pull: { type: { _id: currentId } } },
+        { $pull: { color: { _id: currentId } } },
         { new: true }
       );
   

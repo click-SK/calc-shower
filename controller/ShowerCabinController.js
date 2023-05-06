@@ -72,6 +72,7 @@ export const addFurniture = async (req,res) => {
   };
 
   export const changeFurnitureColors = async (req, res) => {
+    console.log('Work!');
     const {color, price, showerCabinId, furnitureId, currentId} = req.body;
     try {
       const colorsFurniture = {color: color, price: price};
@@ -117,6 +118,7 @@ export const addFurniture = async (req,res) => {
   };
 
 export const updateShowerCabinType = async (req,res) => {
+  console.log('WORK Update');
     try {
         const {name, price, typeId} = req.body;
   
@@ -140,6 +142,28 @@ export const updateShowerCabinType = async (req,res) => {
         console.log(e);
     }
 }
+
+export const removeShowerType = async (req, res) => {
+  console.log('WORK Remove');
+  try {
+    const { showerId, currentId } = req.body;
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId },
+      { $pull: { type: { _id: currentId } } },
+      { new: true }
+    );
+
+    if (!shower) {
+      return res.status(404).json({ message: 'Shower cabin not found' });
+    }
+
+    return res.json(shower);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  }
+};
 
 export const updateShowerCabinColor = async (req,res) => {
   try {
@@ -171,7 +195,7 @@ export const updateShowerCabinColor = async (req,res) => {
 
 export const updateShowerCabinSize = async (req,res) => {
   try {
-      const {price, typeId} = req.body;
+      const {price, name, typeId} = req.body;
       console.log('price',price);
       console.log('typeId',typeId);
 
@@ -183,6 +207,7 @@ export const updateShowerCabinSize = async (req,res) => {
       // оновлюємо об'єкт goods відповідного типу
       shower.sizeOfTheShower[index] = {
           price: price,
+          name: name,
       };
 
       // зберігаємо зміни у базі даних
@@ -382,27 +407,6 @@ export const addNewType = async (req,res) => {
     throw new Error('Failed to add color to furniture');
   }
 }
-
-export const removeShowerType = async (req, res) => {
-  try {
-    const { showerId, currentId } = req.body;
-
-    const shower = await ShowerCabin.findOneAndUpdate(
-      { _id: showerId },
-      { $pull: { type: { _id: currentId } } },
-      { new: true }
-    );
-
-    if (!shower) {
-      return res.status(404).json({ message: 'Shower cabin not found' });
-    }
-
-    return res.json(shower);
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({ message: 'Failed to remove shower furniture' });
-  }
-};
 
 export const getAll = async (req, res) => {
     try {

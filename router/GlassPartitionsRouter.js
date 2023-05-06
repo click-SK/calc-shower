@@ -26,8 +26,8 @@ router.patch('/add-new-glass-partitions-type',GlassPartitionsController.addNewTy
 
 router.patch('/update-glass-partitions-colors',GlassPartitionsController.updateTypePartitionsColors);
 
-router.patch('/add-furniture',GlassPartitionsController.addFurniture);
-router.patch('/update-furniture-color',GlassPartitionsController.changeFurnitureColors);
+router.patch('/glass-partitions-add-furniture',GlassPartitionsController.addFurniture);
+router.patch('/glass-partitions-update-furniture-color',GlassPartitionsController.changeFurnitureColors);
 
 router.patch('/update-glass-partitions-furniture-depends',GlassPartitionsController.updateFurnitureDepends);
 router.patch('/update-glass-partitions-furniture-main-image',GlassPartitionsController.upload.single('mainImage'),GlassPartitionsController.updateFurnitureMainImage);

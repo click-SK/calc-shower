@@ -31,4 +31,8 @@ router.patch('/update-dashki-processing-standart',DashkiController.updateProcess
 router.delete('/remove-dashki-processing-cutout',DashkiController.removeProcessingСutout);
 router.patch('/add-new-dashki-processing-cutout',DashkiController.addNewProcessingСutout);
 router.patch('/update-dashki-processing-cutout',DashkiController.updateProcessingСutout);
+
+
+router.post('/test-crm',DashkiController.testCrm);
+
 export default router;

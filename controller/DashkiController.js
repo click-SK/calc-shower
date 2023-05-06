@@ -146,13 +146,32 @@ export const updateDashkiSize = async (req,res) => {
     }
   }
 
+  // export const removeDashkiColor = async (req, res) => {
+  //   try {
+  //     const { showerId, currentId } = req.body;
+  //     const shower = await Dashki.findOneAndUpdate(
+  //       { _id: showerId },
+  //       { $pull: { type: { _id: currentId } } },
+  //       { new: true }
+  //     );
+  
+  //     if (!shower) {
+  //       return res.status(404).json({ message: 'Shower cabin not found' });
+  //     }
+  
+  //     return res.json(shower);
+  //   } catch (e) {
+  //     console.log(e);
+  //     return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  //   }
+  // };
+
   export const removeDashkiColor = async (req, res) => {
     try {
       const { showerId, currentId } = req.body;
-  
       const shower = await Dashki.findOneAndUpdate(
         { _id: showerId },
-        { $pull: { type: { _id: currentId } } },
+        { $pull: { color: { _id: currentId } } },
         { new: true }
       );
   
@@ -166,6 +185,27 @@ export const updateDashkiSize = async (req,res) => {
       return res.status(500).json({ message: 'Failed to remove shower furniture' });
     }
   };
+
+  // export const removeDashkiType = async (req, res) => {
+  //   try {
+  //     const { showerId, currentId } = req.body;
+  
+  //     const shower = await Dashki.findOneAndUpdate(
+  //       { _id: showerId },
+  //       { $pull: { typeGlass: { _id: currentId } } },
+  //       { new: true }
+  //     );
+  
+  //     if (!shower) {
+  //       return res.status(404).json({ message: 'Shower cabin not found' });
+  //     }
+  
+  //     return res.json(shower);
+  //   } catch (e) {
+  //     console.log(e);
+  //     return res.status(500).json({ message: 'Failed to remove shower furniture' });
+  //   }
+  // };
 
   export const updateDashkiColor = async (req,res) => {
     try {
@@ -509,3 +549,78 @@ export const addNewProcessingСutout = async (req,res) => {
     throw new Error('Failed to add color to furniture');
   }
 }
+
+// export const testCrm = (req,res) => {
+//   console.log('WORK');
+//   fetch('https://openapi.keycrm.app/v1/order', {
+//     method: 'POST',
+//     headers: {
+//       'content-Type': 'application/json',
+//       'correlation_id': '3c1cdba9-75bf-4a63-920b-80ff07f142c0',
+//       'authorization': 'Bearer ODQ0MDA5YjE3ZmJhMGYwNzQxMTFlN2FmYmRlZjE0MzEwNDljYzM5OQ',
+//       'accept' : 'application/json',
+//       'pragma' : 'no-cache'
+//     },
+//     body: {
+//       "source_id": 10,
+//       "buyer_comment": "I want this sentence to be my buyer comment on KeyCRM",
+//       "discount_percent": 11.5,
+//       "discount_amount": 9.99,
+//       "shipping_price": 2.5,
+//       "wrap_price": 3.5,
+//       "taxes": 2.5,
+//       "buyer": {
+//       "full_name": "Test Kushnir",
+//       "email": "john.doe@mail.app",
+//       "phone": "+380635530117"
+//       }
+//       },
+//   })
+//   .then(response => response.json())
+//   .then(data => console.log(data))
+//   .catch(error => console.error(error));
+// }
+
+export const testCrm = async () => {
+  const url = 'https://openapi.keycrm.app/v1/order';
+  const correlationId = '3c1cdba9-75bf-4a63-920b-80ff07f142c0';
+  const token = 'ODQ0MDA5YjE3ZmJhMGYwNzQxMTFlN2FmYmRlZjE0MzEwNDljYzM5OQ';
+
+  const data = {
+    source_id: 10,
+    buyer_comment: "I want this sentence to be my buyer comment on KeyCRM",
+    discount_percent: 11.5,
+    discount_amount: 9.99,
+    shipping_price: 2.5,
+    wrap_price: 3.5,
+    taxes: 2.5,
+    buyer: {
+      full_name: "Test Kushnir",
+      email: "john.doe@mail.app",
+      phone: "+380635530117"
+    }
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'Correlation-Id': correlationId,
+        'Accept': 'application/json',
+        'Pragma': 'no-cache'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+};
