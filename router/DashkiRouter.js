@@ -33,6 +33,6 @@ router.patch('/add-new-dashki-processing-cutout',DashkiController.addNewProcessi
 router.patch('/update-dashki-processing-cutout',DashkiController.updateProcessingСutout);
 
 
-router.post('/test-crm',DashkiController.testCrm);
+router.post('/create-crm',DashkiController.createCRM);
 
 export default router;

@@ -581,7 +581,9 @@ export const addNewProcessingСutout = async (req,res) => {
 //   .catch(error => console.error(error));
 // }
 
-export const testCrm = async () => {
+export const createCRM = async (req,res) => {
+  const {order} = req.body;
+  console.log(order);
   const url = 'https://openapi.keycrm.app/v1/order';
   const correlationId = '3c1cdba9-75bf-4a63-920b-80ff07f142c0';
   const token = 'ODQ0MDA5YjE3ZmJhMGYwNzQxMTFlN2FmYmRlZjE0MzEwNDljYzM5OQ';
@@ -611,7 +613,7 @@ export const testCrm = async () => {
         'Accept': 'application/json',
         'Pragma': 'no-cache'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(order)
     });
 
     if (!response.ok) {
