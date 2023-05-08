@@ -32,7 +32,12 @@ router.delete('/remove-dashki-processing-cutout',DashkiController.removeProcessi
 router.patch('/add-new-dashki-processing-cutout',DashkiController.addNewProcessingСutout);
 router.patch('/update-dashki-processing-cutout',DashkiController.updateProcessingСutout);
 
+//-------cient
+router.delete('/remove-client-dashki-type',DashkiController.removeClientDashkiType);
+router.patch('/add-new-client-dashki-type',DashkiController.addNewClientType);
+router.patch('/update-client-dashki-type',DashkiController.updateClientDashkiType);
 
+//--------CRM
 router.post('/create-crm',DashkiController.createCRM);
 
 export default router;

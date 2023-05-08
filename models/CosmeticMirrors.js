@@ -9,6 +9,10 @@ const CosmeticMirrorsSchema = new mongoose.Schema(
       name: String,
       price: Number,
     }],
+    typeWordpress: [{
+      name: String,
+      price: Number,
+    }],
     size: [{
       name: String,
       price: Number,

@@ -9,6 +9,10 @@ const GlassPartitionsSchema = new mongoose.Schema(
       name: String,
       price: Number,
     }],
+    typeWordpress: [{
+      name: String,
+      price: Number,
+    }],
     color: [{
         name:String,
         price: Number,

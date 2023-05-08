@@ -2,13 +2,14 @@ import MirrorsStandart from "../models/MirrorsStandart.js";
 
 export const create = async (req, res) => {
     try{
-        const { type, option, processingСutout} = req.body;
+        const { type, typeWordpress, option, processingСutout} = req.body;
 
         console.log('type',type);
         console.log('option',option);
 
         const data = await MirrorsStandart.create({
             type,
+            typeWordpress,
             option,
             processingСutout
         });
@@ -52,34 +53,6 @@ export const updateGoods = async (req, res) => {
         console.error(error);
       }
 }
-
-// export const addNewGoods = async (req, res) => {
-//     const { showerId, name, price } = req.body;
-  
-//     if (!showerId || !name || !price) {
-//       return res.status(400).json({ message: "Missing required parameters" });
-//     }
-  
-//     try {
-//       const updatedMirrorsStandart = await MirrorsStandart.findByIdAndUpdate(
-//         showerId,
-//         {
-//           $push: {
-//             "option.color": {
-//               name,
-//               price
-//             }
-//           }
-//         },
-//         { new: true }
-//       );
-  
-//       res.json(updatedMirrorsStandart);
-//     } catch (err) {
-//       console.error(err);
-//       res.status(500).json({ message: "Failed to add new frame" });
-//     }
-//   };
 
 export const addNewGoods = async (req, res) =>  {
     try {
@@ -512,3 +485,89 @@ export const updateCordPrice = async (req, res) => {
       res.status(500).json({ message: "Failed to update cord price" });
     }
   };
+
+  export const updateClientGoods = async (req, res) => {
+    const {typeIndex, goodsIndex, name, price} = req.body;
+    try {
+        console.log('typeIndex',typeIndex);
+        console.log('goodsIndex',goodsIndex);
+        console.log('name',name);
+        console.log('price',price);
+        const mirror = await MirrorsStandart.findOne(); // знаходимо один екземпляр моделі
+    
+        // оновлюємо об'єкт goods відповідного типу
+        mirror.typeWordpress[typeIndex].goods[goodsIndex] = {
+            name: name,
+            price: price,
+            };
+    
+        // зберігаємо зміни у базі даних
+        const updatedMirror = await mirror.save();
+        console.log(updatedMirror);
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+export const addNewClientGoods = async (req, res) =>  {
+    try {
+        const { typeName, name, price } = req.body;
+        console.log('typeName', typeName);
+        console.log('name', name);
+        console.log('price', price);
+        const mirror = await MirrorsStandart.findOne({ 'type.name': typeName });
+        if (!mirror) {
+          throw new Error(`Mirror with type name '${showerId}' not found.`);
+        }
+        mirror.typeWordpress.forEach((type) => {
+          if (type.name === typeName) {
+            type.goods.push({
+              name: name,
+              price: price,
+            });
+          }
+        });
+        await mirror.save();
+        console.log(`New good '${name}' added to type '${showerId}' successfully.`);
+      } catch (err) {
+        console.error(`Error adding new good to type: ${err.message}`);
+      }
+  }
+
+export const removeClientGoods = async (req, res) => {
+    try {
+        const { typeName, name } = req.body;
+
+        const mirror = await MirrorsStandart.findOne({ 'type.name': typeName });
+
+        const typeIndex = mirror.typeWordpress.findIndex((type) => type.name === typeName);
+
+        const goodsIndex = mirror.typeWordpress[typeIndex].goods.findIndex((good) => good.name === name);
+
+        mirror.typeWordpress[typeIndex].goods.splice(goodsIndex, 1);
+        await mirror.save();
+      } catch (err) {
+        console.error(`Error deleting good from type: ${err.message}`);
+      }
+  };
+
+export const updateClientType = async (req, res) => {
+    const {typeIndex, name, goods} = req.body;
+    try {
+        console.log('typeIndex',typeIndex);
+        console.log('name',name);
+        const mirror = await MirrorsStandart.findOne(); // знаходимо один екземпляр моделі
+    
+        // оновлюємо об'єкт goods відповідного типу
+        mirror.typeWordpress[typeIndex] = {
+            name: name,
+            goods: goods,
+            };
+    
+        // зберігаємо зміни у базі даних
+        const updatedMirror = await mirror.save();
+        console.log(updatedMirror);
+      } catch (error) {
+        console.error(error);
+      }
+}

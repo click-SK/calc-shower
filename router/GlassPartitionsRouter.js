@@ -37,4 +37,8 @@ router.patch('/add-new-glass-partitions-furniture-colors',GlassPartitionsControl
 router.delete('/remove-glass-partitions-furniture-colors',GlassPartitionsController.removeFurnitureColors);
 router.delete('/remove-glass-partitions-furniture',GlassPartitionsController.removeFurniture);
 
+router.patch('/update-client-glass-partitions-type',GlassPartitionsController.updateClientType);
+router.delete('/remove-client-glass-partitions-type',GlassPartitionsController.removeClientType);
+router.patch('/add-new-client-glass-partitions-type',GlassPartitionsController.addNewClientType);
+
 export default router;

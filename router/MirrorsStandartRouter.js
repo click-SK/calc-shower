@@ -34,4 +34,11 @@ router.patch('/update-mirror-warmed-up-price',MirrorsStandartController.updateWa
 
 router.patch('/update-mirror-painting-price',MirrorsStandartController.updatePainting);
 
+//------Client
+
+router.patch('/update-client-type',MirrorsStandartController.updateClientType)
+router.patch('/update-client-goods',MirrorsStandartController.updateClientGoods)
+router.patch('/add-new-client-goods',MirrorsStandartController.addNewClientGoods)
+router.delete('/remove-client-mirror-goods',MirrorsStandartController.removeClientGoods)
+
 export default router;

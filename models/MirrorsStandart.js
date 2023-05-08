@@ -13,6 +13,17 @@ const MirrorsStandartSchema = new mongoose.Schema(
             ]
         }
     ],
+    typeWordpress: [
+        {
+            name: String,
+            goods: [
+                {
+                    name: String,
+                    price: Number
+                }
+            ]
+        }
+    ],
     option: {
             frame: [
                 {

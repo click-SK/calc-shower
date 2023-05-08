@@ -20,4 +20,8 @@ router.patch('/update-cosmetic-mirrors-light-bulbs',CosmeticMirrorsController.up
 
 router.patch('/update-cosmetic-mirrors-patron',CosmeticMirrorsController.updatePatron);
 
+router.patch('/update-client-cosmetic-mirrors-type',CosmeticMirrorsController.updateClientType);
+router.delete('/remove-client-cosmetic-mirrors-type',CosmeticMirrorsController.removeClientType);
+router.patch('/add-new-client-cosmetic-mirrors-type',CosmeticMirrorsController.addNewClientType);
+
 export default router;
