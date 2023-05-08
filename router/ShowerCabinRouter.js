@@ -24,6 +24,16 @@ router.patch('/add-new-glass-thickness',ShowerCabinController.addNewGlassThickne
 router.delete('/remove-shower-type',ShowerCabinController.removeShowerType);
 router.patch('/add-new-shower-type',ShowerCabinController.addNewType);
 
+//-------Обробка
+
+router.delete('/remove-shower-processing-standart',ShowerCabinController.removeProcessingStandart);
+router.patch('/add-new-shower-processing-standart',ShowerCabinController.addNewProcessingStandart);
+router.patch('/update-shower-processing-standart',ShowerCabinController.updateProcessingStandart);
+
+router.delete('/remove-shower-processing-cutout',ShowerCabinController.removeProcessingСutout);
+router.patch('/add-new-shower-processing-cutout',ShowerCabinController.addNewProcessingСutout);
+router.patch('/update-shower-processing-cutout',ShowerCabinController.updateProcessingСutout);
+
 //-------Клієт
 
 router.delete('/remove-shower-client-type',ShowerCabinController.removeShowerClientType);

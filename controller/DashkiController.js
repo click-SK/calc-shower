@@ -551,37 +551,6 @@ export const addNewProcessingСutout = async (req,res) => {
   }
 }
 
-// export const testCrm = (req,res) => {
-//   console.log('WORK');
-//   fetch('https://openapi.keycrm.app/v1/order', {
-//     method: 'POST',
-//     headers: {
-//       'content-Type': 'application/json',
-//       'correlation_id': '3c1cdba9-75bf-4a63-920b-80ff07f142c0',
-//       'authorization': 'Bearer ODQ0MDA5YjE3ZmJhMGYwNzQxMTFlN2FmYmRlZjE0MzEwNDljYzM5OQ',
-//       'accept' : 'application/json',
-//       'pragma' : 'no-cache'
-//     },
-//     body: {
-//       "source_id": 10,
-//       "buyer_comment": "I want this sentence to be my buyer comment on KeyCRM",
-//       "discount_percent": 11.5,
-//       "discount_amount": 9.99,
-//       "shipping_price": 2.5,
-//       "wrap_price": 3.5,
-//       "taxes": 2.5,
-//       "buyer": {
-//       "full_name": "Test Kushnir",
-//       "email": "john.doe@mail.app",
-//       "phone": "+380635530117"
-//       }
-//       },
-//   })
-//   .then(response => response.json())
-//   .then(data => console.log(data))
-//   .catch(error => console.error(error));
-// }
-
 export const createCRM = async (req,res) => {
   const {order} = req.body;
   console.log(order);

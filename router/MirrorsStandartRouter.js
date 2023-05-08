@@ -41,4 +41,10 @@ router.patch('/update-client-goods',MirrorsStandartController.updateClientGoods)
 router.patch('/add-new-client-goods',MirrorsStandartController.addNewClientGoods)
 router.delete('/remove-client-mirror-goods',MirrorsStandartController.removeClientGoods)
 
+//------------Обробка
+
+router.delete('/remove-standart-mirror-processing-cutout',MirrorsStandartController.removeProcessingСutout);
+router.patch('/add-new-standart-mirror-processing-cutout',MirrorsStandartController.addNewProcessingСutout);
+router.patch('/update-standart-mirror-processing-cutout',MirrorsStandartController.updateProcessingСutout);
+
 export default router;
