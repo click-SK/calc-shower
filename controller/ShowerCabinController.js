@@ -27,7 +27,16 @@ export const upload = multer({ storage });
 export const create = async (req, res) => {
     try{
         const { name, type, glassThickness, color, sizeOfTheShower, furniture, typeWordpress, dorsHandles, processingStandart, processingСutout } = req.body;
-
+        console.log('name',name);
+        console.log('type',type);
+        console.log('glassThickness',glassThickness);
+        console.log('color',color);
+        console.log('sizeOfTheShower',sizeOfTheShower);
+        console.log('furniture',furniture);
+        console.log('typeWordpress',typeWordpress);
+        console.log('dorsHandles',dorsHandles);
+        console.log('processingStandart',processingStandart);
+        console.log('processingСutout',processingСutout);
         const data = await ShowerCabin.create({
             name,
             type,
@@ -397,7 +406,7 @@ export const addNewType = async (req,res) => {
   try {
     const showerCabin = await ShowerCabin.findOneAndUpdate(
       { _id: showerId },
-      { $push: { "type": { name: name, price: price } } },
+      { $push: { "type": { name: name, price: price, defaultFurniture: [], showerImage: '' } } },
       { new: true }
     );
 
@@ -669,5 +678,71 @@ export const addNewProcessingСutout = async (req,res) => {
   } catch (err) {
     console.error(err);
     throw new Error('Failed to add color to furniture');
+  }
+}
+
+export const updateDefaultFurniture = async (req,res) => {
+  try {
+    const {newDefaultFurniture, index} = req.body;
+    console.log('newDefaultFurniture',newDefaultFurniture);
+    console.log('index',index);
+    const showerCabin = await ShowerCabin.findOne(); // Отримуємо один запис ShowerCabin, можна використовувати інші методи для вибору потрібного запису
+
+    if (showerCabin) {
+      showerCabin.type[index].defaultFurniture = newDefaultFurniture; // Замінюємо старий defaultFurniture на новий
+
+      await showerCabin.save(); // Зберігаємо зміни в базі даних
+      res.json(newDefaultFurniture)
+      console.log("Успішно оновлено defaultFurniture");
+    } else {
+      console.log("Запис ShowerCabin не знайдено");
+    }
+  } catch (error) {
+    console.error("Помилка при оновленні defaultFurniture:", error);
+  }
+}
+
+export const updateShowerCabinTypeImage = async (req, res) => {
+  try {
+    const { typeId, showerId } = req.body;
+
+    if (!req.file) {
+      return res.json({ message: 'No photo chosen' });
+    }
+
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId, "type._id": typeId },
+      { $set: { "type.$[outer].showerImage": result.secure_url } },
+      { new: true, arrayFilters: [{ "outer._id": typeId }] }
+    );
+
+    res.json(shower);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateClientShowerCabinTypeImage = async (req,res) => {
+  try {
+    const {typeId, showerId} = req.body;
+
+    if (!req.file) {
+      return res.json({ message: 'No photo chosen' });
+    }
+
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+
+    const shower = await ShowerCabin.findOneAndUpdate(
+      { _id: showerId, "typeWordpress._id": typeId}, // умовний оператор
+      { $set: { "typeWordpress.$[outer].showerImage": result.secure_url } },
+      { new: true, arrayFilters: [{ "outer._id": typeId }] } 
+    );
+
+    res.json(shower)
+
+  } catch(e) {
+    console.log(e);
   }
 }

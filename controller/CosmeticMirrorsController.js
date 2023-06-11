@@ -1,4 +1,28 @@
 import CosmeticMirrors from '../models/CosmeticMirrors.js';
+import multer from 'multer';
+import cloudinary from 'cloudinary';
+import fs from 'fs';
+
+// конфігуруємо Cloudinary
+cloudinary.config({
+  cloud_name: 'dzroxyus8',
+  api_key: '235818666177812',
+  api_secret: '8-Mw7cej-V9GD1d8oPZ8d3djEgo'
+});
+
+const storage = multer.diskStorage({
+destination: (_, __, cb) => {
+  if (!fs.existsSync('uploads')) {
+    fs.mkdirSync('uploads');
+  }
+  cb(null, 'uploads');
+},
+filename: (_, file, cb) => {
+  cb(null, file.originalname);
+},
+});
+
+export const upload = multer({ storage });
 
 export const create = async (req, res) => {
     try{
@@ -283,5 +307,51 @@ export const addNewClientType = async (req,res) => {
     } catch (err) {
       console.error(err);
       throw new Error('Failed to add color to furniture');
+    }
+  }
+
+  export const updateClientTypeImage = async (req,res) => {
+    try {
+      const {typeId, showerId} = req.body;
+
+      if (!req.file) {
+        return res.json({ message: 'No photo chosen' });
+      }
+  
+      const result = await cloudinary.v2.uploader.upload(req.file.path);
+  
+      const shower = await CosmeticMirrors.findOneAndUpdate(
+        { _id: showerId, "typeWordpress._id": typeId}, // умовний оператор
+        { $set: { "typeWordpress.$[outer].mirrorsImage": result.secure_url } },
+        { new: true, arrayFilters: [{ "outer._id": typeId }] } 
+      );
+  
+      res.json(shower)
+  
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
+  export const updateTypeImage = async (req,res) => {
+    try {
+      const {typeId, showerId} = req.body;
+  
+      if (!req.file) {
+        return res.json({ message: 'No photo chosen' });
+      }
+  
+      const result = await cloudinary.v2.uploader.upload(req.file.path);
+  
+      const shower = await CosmeticMirrors.findOneAndUpdate(
+        { _id: showerId, "typeGlass._id": typeId}, // умовний оператор
+        { $set: { "typeGlass.$[outer].mirrorsImage": result.secure_url } },
+        { new: true, arrayFilters: [{ "outer._id": typeId }] } 
+      );
+  
+      res.json(shower)
+  
+    } catch(e) {
+      console.log(e);
     }
   }

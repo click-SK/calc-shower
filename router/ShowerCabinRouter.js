@@ -23,7 +23,7 @@ router.delete('/remove-shower-glass-thickness',ShowerCabinController.removeShowe
 router.patch('/add-new-glass-thickness',ShowerCabinController.addNewGlassThickness);
 router.delete('/remove-shower-type',ShowerCabinController.removeShowerType);
 router.patch('/add-new-shower-type',ShowerCabinController.addNewType);
-
+router.patch('/update-shower-type-image',ShowerCabinController.upload.single('showerImage'),ShowerCabinController.updateShowerCabinTypeImage);
 //-------Обробка
 
 router.delete('/remove-shower-processing-standart',ShowerCabinController.removeProcessingStandart);
@@ -39,11 +39,14 @@ router.patch('/update-shower-processing-cutout',ShowerCabinController.updateProc
 router.delete('/remove-shower-client-type',ShowerCabinController.removeShowerClientType);
 router.patch('/add-new-shower-client-type',ShowerCabinController.addNewClientType);
 router.patch('/update-shower-client-type',ShowerCabinController.updateShowerClientType);
+router.patch('/update-shower-client-type-image',ShowerCabinController.upload.single('showerImage'),ShowerCabinController.updateClientShowerCabinTypeImage);
 
 //--------------Ручки
 
 router.delete('/remove-shower-handle-dors',ShowerCabinController.removeHandleDors);
 router.patch('/add-new-shower-handle-dors',ShowerCabinController.addNewHandleDors);
 router.patch('/update-shower-handle-dors',ShowerCabinController.updateHandleDors);
+//------------- default furniture
+router.patch('/update-default-furniture',ShowerCabinController.updateDefaultFurniture);
 
 export default router;

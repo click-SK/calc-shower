@@ -1,4 +1,27 @@
 import MirrorsStandart from "../models/MirrorsStandart.js";
+import cloudinary from 'cloudinary';
+import multer from 'multer';
+import fs from 'fs';
+
+cloudinary.config({
+  cloud_name: 'dzroxyus8',
+  api_key: '235818666177812',
+  api_secret: '8-Mw7cej-V9GD1d8oPZ8d3djEgo'
+});
+
+const storage = multer.diskStorage({
+  destination: (_, __, cb) => {
+    if (!fs.existsSync('uploads')) {
+      fs.mkdirSync('uploads');
+    }
+    cb(null, 'uploads');
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname);
+  },
+  });
+  
+  export const upload = multer({ storage });
 
 export const create = async (req, res) => {
     try{
@@ -11,7 +34,7 @@ export const create = async (req, res) => {
             type,
             typeWordpress,
             option,
-            processingСutout
+            processingСutout,
         });
 
         res.json(data);
@@ -635,3 +658,88 @@ export const addNewProcessingСutout = async (req,res) => {
     throw new Error('Failed to add color to furniture');
   }
 }
+
+export const updateStandartMirrorGoodsImage = async (req, res) => {
+  try {
+    const { typeIdx, goodsIdx, name, price } = req.body;
+
+    if (!req.file) {
+      return res.json({ message: 'No photo chosen' });
+    }
+
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+
+    const mirror = await MirrorsStandart.findOne();
+
+    mirror.type[typeIdx].goods[goodsIdx] = {
+      mirrorsImage: result.secure_url,
+      name,
+      price
+    };
+
+    // зберігаємо зміни у базі даних
+    const updatedMirror = await mirror.save();
+    res.json(updatedMirror)
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateClientStandartMirrorGoodsImage = async (req, res) => {
+  try {
+    const { typeIdx, goodsIdx, name, price } = req.body;
+
+    if (!req.file) {
+      return res.json({ message: 'No photo chosen' });
+    }
+
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+
+    const mirror = await MirrorsStandart.findOne();
+
+    mirror.typeWordpress[typeIdx].goods[goodsIdx] = {
+      mirrorsImage: result.secure_url,
+      name,
+      price
+    };
+
+    // зберігаємо зміни у базі даних
+    const updatedMirror = await mirror.save();
+    res.json(updatedMirror)
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// export const updateStandartMirrorGoodsImage = async (req, res) => {
+//   try {
+//     // const { typeId, goodsId } = req.body;
+
+//     const typeId = '6484841342d00d9f9cc5d80b';
+//     const goodsId = '6484841342d00d9f9cc5d80c';
+//     console.log('work');
+
+//     const result = await cloudinary.v2.uploader.upload(req.file.path);
+//     console.log('result',result.secure_url);
+
+//     const updatedMirror = await MirrorsStandart.findOneAndUpdate(
+//       {
+//         "type._id": typeId,
+//         "goods._id": goodsId
+//       },
+//       {
+//         $set: { "type.$[outer].goods.$[inner].mirrorsImage": 'hello' }
+//       },
+//       {
+//         new: true,
+//         arrayFilters: [{ "outer._id": typeId }, { "inner._id": goodsId }]
+//       }
+//     );
+
+//     console.log('updatedMirror',updatedMirror);
+
+//     res.json(updatedMirror);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

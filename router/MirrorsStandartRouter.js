@@ -9,6 +9,7 @@ router.get('/get-all-standart-mirrors',MirrorsStandartController.getAll);
 router.patch('/update-goods',MirrorsStandartController.updateGoods)
 router.patch('/add-new-goods',MirrorsStandartController.addNewGoods)
 router.delete('/remove-mirror-goods',MirrorsStandartController.removeGoods)
+router.patch('/update-mirror-standart-goods-image',MirrorsStandartController.upload.single('mirrorsImage'),MirrorsStandartController.updateStandartMirrorGoodsImage);
 
 router.patch('/update-type',MirrorsStandartController.updateType)
 
@@ -40,6 +41,7 @@ router.patch('/update-client-type',MirrorsStandartController.updateClientType)
 router.patch('/update-client-goods',MirrorsStandartController.updateClientGoods)
 router.patch('/add-new-client-goods',MirrorsStandartController.addNewClientGoods)
 router.delete('/remove-client-mirror-goods',MirrorsStandartController.removeClientGoods)
+router.patch('/update-client-mirror-standart-goods-image',MirrorsStandartController.upload.single('mirrorsImage'),MirrorsStandartController.updateClientStandartMirrorGoodsImage);
 
 //------------Обробка
 

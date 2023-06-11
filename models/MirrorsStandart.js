@@ -8,7 +8,8 @@ const MirrorsStandartSchema = new mongoose.Schema(
             goods: [
                 {
                     name: String,
-                    price: Number
+                    price: Number,
+                    mirrorsImage: String
                 }
             ]
         }
@@ -19,7 +20,8 @@ const MirrorsStandartSchema = new mongoose.Schema(
             goods: [
                 {
                     name: String,
-                    price: Number
+                    price: Number,
+                    mirrorsImage: String
                 }
             ]
         }

@@ -9,12 +9,29 @@ const ShowerCabinSchema = new mongoose.Schema(
       {
         name: String,
         price: Number,
+        showerImage: String,
+        defaultFurniture: [
+          {
+            count: Number,
+            mainImage: String,
+            title: String,
+            drawingImg: String,
+            depends: [String],
+            colorsFurniture: [
+              {
+                color: String,
+                price: Number,
+              },
+            ],
+          },
+        ],
       },
     ],
     typeWordpress: [
       {
         name: String,
         price: Number,
+        showerImage: String,
       },
     ],
     glassThickness: [

@@ -8,10 +8,12 @@ const CosmeticMirrorsSchema = new mongoose.Schema(
     typeGlass: [{
       name: String,
       price: Number,
+      mirrorsImage: String
     }],
     typeWordpress: [{
       name: String,
       price: Number,
+      mirrorsImage: String
     }],
     size: [{
       name: String,
