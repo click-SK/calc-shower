@@ -49,4 +49,8 @@ router.patch('/update-shower-handle-dors',ShowerCabinController.updateHandleDors
 //------------- default furniture
 router.patch('/update-default-furniture',ShowerCabinController.updateDefaultFurniture);
 
+//-------------Telegramm
+
+router.post('/send-data-to-telegramm',ShowerCabinController.gettingOrderAndSendToTelegramm);
+
 export default router;

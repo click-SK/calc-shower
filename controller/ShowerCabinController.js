@@ -746,3 +746,14 @@ export const updateClientShowerCabinTypeImage = async (req,res) => {
     console.log(e);
   }
 }
+
+export const gettingOrderAndSendToTelegramm = async (req,res) => {
+  try {
+    const {data} = req.body;
+    const parseData = JSON.stringify(data, null, 2);
+    console.log('parseData',parseData);
+    res.json({message: 'success'})
+  }catch(e){
+    console.log(e);
+  }
+}
