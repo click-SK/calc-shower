@@ -2,7 +2,7 @@ import Dashki from '../models/Dashki.js';
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import fs from 'fs';
-
+import { SendMessageToBot } from "../services/SendMessageToBot.js";
 // конфігуруємо Cloudinary
 cloudinary.config({
   cloud_name: 'dzroxyus8',
@@ -657,5 +657,42 @@ export const updateClientDashkiType = async (req,res) => {
 
   } catch (e) {
       console.log(e);
+  }
+}
+
+export const gettingOrderAndSendToTelegramm = async (req,res) => {
+  try {
+    const {data} = req.body;
+    console.log('date',data.order);
+    const product = data.order.products[0];
+    console.log('product',product);
+    const templateMessageText = `
+    👨‍💼<strong>Клієнт</strong>
+    
+    Назва товару: ${product.name}
+    Кількість: ${product.quantity}
+    Ціна: ${product.price}
+
+    📝<strong>Інформація про замовника:</strong>
+    
+    Замовник: ${data.order.buyer.full_name}
+    Телефон: ${data.order.buyer.phone}
+    Адресса: ${data.order.shipping.shipping_address_city}
+    Коментар: ${data.order.buyer_comment}
+    `
+    SendMessageToBot(templateMessageText)
+    res.json({message: 'success'})
+  }catch(e){
+    console.log(e);
+  }
+}
+export const managerGettingOrderAndSendToTelegramm = async (req,res) => {
+  try {
+    const {data} = req.body;
+    const parseData = JSON.stringify(data, null, 2);
+    console.log('parseData dashki',parseData);
+    res.json({message: 'success'})
+  }catch(e){
+    console.log(e);
   }
 }

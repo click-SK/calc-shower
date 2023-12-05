@@ -7,6 +7,7 @@ import GlassPartitionsRouter from './router/GlassPartitionsRouter.js';
 import MirrorsStandartRouter from './router/MirrorsStandartRouter.js';
 import CosmeticMirrorsRouter from './router/CosmeticMirrorsRouter.js'
 import ShowerCabinRouter from './router/ShowerCabinRouter.js'
+import { SendMessageToBot } from './services/SendMessageToBot.js';
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,10 @@ app.use(GlassPartitionsRouter);
 app.use(MirrorsStandartRouter);
 app.use(CosmeticMirrorsRouter);
 app.use(ShowerCabinRouter);
+
+// setTimeout(() => {
+//     SendMessageToBot();
+// },5000)
 
 app.listen(process.env.PORT,() => {
     console.log('server start',process.env.PORT)

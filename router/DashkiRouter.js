@@ -37,6 +37,11 @@ router.delete('/remove-client-dashki-type',DashkiController.removeClientDashkiTy
 router.patch('/add-new-client-dashki-type',DashkiController.addNewClientType);
 router.patch('/update-client-dashki-type',DashkiController.updateClientDashkiType);
 
+//-------------Telegramm
+
+router.post('/send-data-client-dashki-to-telegramm',DashkiController.gettingOrderAndSendToTelegramm);
+router.post('/send-data-manger-dashki-to-telegramm',DashkiController.managerGettingOrderAndSendToTelegramm);
+
 //--------CRM
 router.post('/create-crm',DashkiController.createCRM);
 

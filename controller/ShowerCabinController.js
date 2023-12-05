@@ -2,6 +2,7 @@ import ShowerCabin from "../models/ShowerCabin.js";
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import fs from 'fs';
+import { SendMessageToBot } from "../services/SendMessageToBot.js";
 
 // конфігуруємо Cloudinary
 cloudinary.config({
@@ -743,6 +744,64 @@ export const updateClientShowerCabinTypeImage = async (req,res) => {
     res.json(shower)
 
   } catch(e) {
+    console.log(e);
+  }
+}
+
+export const gettingOrderAndSendToTelegramm = async (req,res) => {
+  try {
+    const {data} = req.body;
+    const product = data.order.products[0];
+    const properties = product.properties[0];
+    console.log('product',product);
+    const templateMessageText = `
+    👨‍💼<strong>Клієнт</strong>
+    
+    Назва товару: ${product.name}
+    Кількість: ${product.quantity}
+    Додатково: ${properties.name}
+    Ціна: ${product.price}
+
+    📝<strong>Інформація про замовника:</strong>
+    
+    Замовник: ${data.order.buyer.full_name}
+    Телефон: ${data.order.buyer.phone}
+    Адресса: ${data.order.shipping.shipping_address_city}
+    Коментар: ${data.order.buyer_comment}
+    `
+    SendMessageToBot(templateMessageText)
+    res.json({message: 'success'})
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const managerGettingOrderAndSendToTelegramm = async (req,res) => {
+  try {
+    const {data} = req.body;
+    const product = data.order.products[0];
+    const properties = product.properties;
+    console.log('data oder',data.order);
+    console.log('product',product);
+    console.log('properties',properties);
+    const templateMessageText = `
+    👨‍💼<strong>Клієнт</strong>
+    
+    Назва товару: ${product.name}
+    Кількість: ${product.quantity}
+    Додатково: ${properties.name}
+    Ціна: ${product.price}
+
+    📝<strong>Інформація про замовника:</strong>
+    
+    Замовник: ${data.order.buyer.full_name}
+    Телефон: ${data.order.buyer.phone}
+    Адресса: ${data.order.shipping.shipping_address_city}
+    Коментар: ${data.order.buyer_comment}
+    `
+    SendMessageToBot(templateMessageText)
+    res.json({message: 'success'})
+  }catch(e){
     console.log(e);
   }
 }
