@@ -41,4 +41,9 @@ router.patch('/update-client-glass-partitions-type',GlassPartitionsController.up
 router.delete('/remove-client-glass-partitions-type',GlassPartitionsController.removeClientType);
 router.patch('/add-new-client-glass-partitions-type',GlassPartitionsController.addNewClientType);
 
+//-------------Telegramm
+
+router.post('/send-data-client-glass-partition-to-telegramm',GlassPartitionsController.gettingOrderAndSendToTelegramm);
+router.post('/send-data-manager-glass-partition-to-telegramm',GlassPartitionsController.managerGettingOrderAndSendToTelegramm);
+
 export default router;

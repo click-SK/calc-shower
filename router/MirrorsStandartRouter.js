@@ -49,4 +49,9 @@ router.delete('/remove-standart-mirror-processing-cutout',MirrorsStandartControl
 router.patch('/add-new-standart-mirror-processing-cutout',MirrorsStandartController.addNewProcessingСutout);
 router.patch('/update-standart-mirror-processing-cutout',MirrorsStandartController.updateProcessingСutout);
 
+//-------------Telegramm
+
+router.post('/send-data-client-mirror-to-telegramm',MirrorsStandartController.gettingOrderAndSendToTelegramm);
+router.post('/send-data-manager-mirror-to-telegramm',MirrorsStandartController.managerGettingOrderAndSendToTelegramm);
+
 export default router;

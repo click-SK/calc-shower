@@ -2,6 +2,7 @@ import MirrorsStandart from "../models/MirrorsStandart.js";
 import cloudinary from 'cloudinary';
 import multer from 'multer';
 import fs from 'fs';
+import { SendMessageToBot } from "../services/SendMessageToBot.js";
 
 cloudinary.config({
   cloud_name: 'dzroxyus8',
@@ -711,35 +712,50 @@ export const updateClientStandartMirrorGoodsImage = async (req, res) => {
   }
 };
 
-// export const updateStandartMirrorGoodsImage = async (req, res) => {
-//   try {
-//     // const { typeId, goodsId } = req.body;
+export const gettingOrderAndSendToTelegramm = async (req,res) => {
+  try {
+    const {data} = req.body;
 
-//     const typeId = '6484841342d00d9f9cc5d80b';
-//     const goodsId = '6484841342d00d9f9cc5d80c';
-//     console.log('work');
+    const product = data.order.products[0];
+    const properties = product.properties;
 
-//     const result = await cloudinary.v2.uploader.upload(req.file.path);
-//     console.log('result',result.secure_url);
+    let propertiesText = '';
 
-//     const updatedMirror = await MirrorsStandart.findOneAndUpdate(
-//       {
-//         "type._id": typeId,
-//         "goods._id": goodsId
-//       },
-//       {
-//         $set: { "type.$[outer].goods.$[inner].mirrorsImage": 'hello' }
-//       },
-//       {
-//         new: true,
-//         arrayFilters: [{ "outer._id": typeId }, { "inner._id": goodsId }]
-//       }
-//     );
+    properties.forEach((item) => {
+      propertiesText += `${item.name}, `;
+    });
+    
+    propertiesText = propertiesText.slice(0, -2);
 
-//     console.log('updatedMirror',updatedMirror);
+    const templateMessageText = `
+    👨‍💼<strong>Клієнт</strong>
+    
+    Назва товару: ${product.name}
+    Кількість: ${product.quantity}
+    Додатково: ${propertiesText}
+    Ціна: ${product.price}
 
-//     res.json(updatedMirror);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    📝<strong>Інформація про замовника:</strong>
+    
+    Замовник: ${data.order.buyer.full_name}
+    Телефон: ${data.order.buyer.phone}
+    Адресса: ${data.order.shipping.shipping_address_city}
+    Коментар: ${data.order.buyer_comment}
+    `
+    SendMessageToBot(templateMessageText)
+    res.json({message: 'success'})
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const managerGettingOrderAndSendToTelegramm = async (req,res) => {
+  try {
+    const {data} = req.body;
+    const parseData = JSON.stringify(data, null, 2);
+    console.log('parseData mirrors standart',parseData);
+    res.json({message: 'success'})
+  }catch(e){
+    console.log(e);
+  }
+}

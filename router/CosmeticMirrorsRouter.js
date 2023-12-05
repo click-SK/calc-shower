@@ -26,4 +26,9 @@ router.delete('/remove-client-cosmetic-mirrors-type',CosmeticMirrorsController.r
 router.patch('/add-new-client-cosmetic-mirrors-type',CosmeticMirrorsController.addNewClientType);
 router.patch('/update-client-cosmetic-mirrors-type-image',CosmeticMirrorsController.upload.single('mirrorsImage'),CosmeticMirrorsController.updateClientTypeImage);
 
+//-------------Telegramm
+
+router.post('/send-data-client-cosmetic-mirrors-to-telegramm',CosmeticMirrorsController.gettingOrderAndSendToTelegramm);
+router.post('/send-data-manager-cosmetic-mirrors-to-telegramm',CosmeticMirrorsController.managerGettingOrderAndSendToTelegramm);
+
 export default router;
